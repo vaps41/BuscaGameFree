@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/games",
+      "destination": "https://www.gamerpower.com/api/giveaways"
+    }
+  ]
+}
