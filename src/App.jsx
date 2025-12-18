@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ExternalLink, Monitor, Tag, RefreshCw, AlertCircle, Gamepad2 } from 'lucide-react';
+import { ExternalLink, Monitor, Tag, RefreshCw, AlertCircle, Gamepad2, Smartphone, Glasses } from 'lucide-react';
 import logo from '../logo_GameHunter.png'; // Importando a nova logo
 
 export default function GameHunter() {
@@ -47,30 +47,36 @@ export default function GameHunter() {
 
   const filteredGames = games.filter(game => {
     if (filter === 'All') return true;
-    // Verifica se a plataforma ou instruções contêm o filtro (ex: "PS" encontra "PS4" e "PS5")
+    
+    // Lógica especial para Mobile (Android + iOS)
+    if (filter === 'Mobile') {
+      return game.platforms.includes('Android') || game.platforms.includes('iOS');
+    }
+
+    // Verifica se a plataforma ou instruções contêm o filtro
     return game.platforms.includes(filter) || game.instructions.includes(filter);
   });
 
   const getStoreBadgeColor = (store) => {
     // Cores personalizadas por plataforma
-    if (store.includes('Steam')) return 'bg-blue-600 text-white';
-    if (store.includes('Epic')) return 'bg-gray-800 text-white border border-gray-600';
-    if (store.includes('GOG')) return 'bg-purple-600 text-white';
-    if (store.includes('Ubisoft')) return 'bg-blue-500 text-white';
-    if (store.includes('PS') || store.includes('Sony')) return 'bg-blue-800 text-white border border-blue-500'; // PlayStation Blue
-    if (store.includes('Xbox') || store.includes('Microsoft')) return 'bg-green-700 text-white border border-green-500'; // Xbox Green
-    if (store.includes('Nintendo') || store.includes('Switch')) return 'bg-red-600 text-white'; // Nintendo Red
-    if (store.includes('Android') || store.includes('iOS')) return 'bg-green-500 text-slate-900'; // Mobile
+    if (store.includes('Steam')) return 'bg-[#1b2838] text-white border border-blue-900'; // Steam Blue
+    if (store.includes('Epic')) return 'bg-[#333] text-white border border-gray-500'; // Epic Dark
+    if (store.includes('GOG')) return 'bg-[#5c2e91] text-white'; // GOG Purple
+    if (store.includes('Ubisoft')) return 'bg-[#005cff] text-white'; // Ubisoft Blue
+    if (store.includes('Itch')) return 'bg-[#fa5c5c] text-white'; // Itch Red
+    if (store.includes('PS') || store.includes('Sony')) return 'bg-[#003791] text-white border border-blue-500'; // PlayStation Blue
+    if (store.includes('Xbox') || store.includes('Microsoft')) return 'bg-[#107c10] text-white border border-green-500'; // Xbox Green
+    if (store.includes('Nintendo') || store.includes('Switch')) return 'bg-[#e60012] text-white'; // Nintendo Red
+    if (store.includes('Android')) return 'bg-[#3ddc84] text-slate-900 font-bold'; // Android Green
+    if (store.includes('iOS')) return 'bg-gray-200 text-slate-900 font-bold'; // iOS White/Gray
+    if (store.includes('Battle.net')) return 'bg-[#148eff] text-white'; // Battle.net Blue
+    if (store.includes('Origin')) return 'bg-[#f56c2d] text-white'; // Origin Orange
+    if (store.includes('Prime') || store.includes('Amazon')) return 'bg-[#00A8E1] text-white'; // Prime Blue
+    if (store.includes('Indiegala')) return 'bg-[#a30000] text-white'; // Indiegala Dark Red
+    if (store.includes('VR')) return 'bg-[#ff00ff] text-white'; // VR Magenta
     
     return 'bg-green-600 text-white'; // Padrão
   };
-
-  // Ícone helper para o botão de filtro
-  const getFilterIcon = (label) => {
-      if(label === 'PlayStation') return 'text-blue-400';
-      if(label === 'Xbox') return 'text-green-400';
-      return '';
-  }
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 font-sans selection:bg-green-500 selection:text-slate-900">
@@ -98,31 +104,45 @@ export default function GameHunter() {
         <div className="mb-8 text-center sm:text-left">
           <h2 className="text-3xl font-bold mb-2">Jogos Gratuitos Disponíveis</h2>
           <p className="text-slate-400 max-w-2xl">
-            Monitorizamos as principais lojas para encontrar jogos oficiais que estão 100% grátis agora para PC, Consolas e Mobile.
+            Monitorizamos todas as lojas licenciadas para encontrar jogos oficiais 100% grátis.
           </p>
         </div>
 
-        {/* Filtros Atualizados */}
+        {/* Lista completa de filtros */}
         <div className="flex flex-wrap gap-2 mb-8 justify-center sm:justify-start">
           {[
             { label: 'Todos', value: 'All' },
-            { label: 'PC / Steam', value: 'PC' },
-            { label: 'PlayStation', value: 'PS' }, // "PS" pega PS4 e PS5
-            { label: 'Xbox', value: 'Xbox' },      // "Xbox" pega One e Series X
+            { label: 'Steam', value: 'Steam' },
             { label: 'Epic Games', value: 'Epic Games Store' },
+            { label: 'Ubisoft', value: 'Ubisoft' },
             { label: 'GOG', value: 'GOG' },
+            { label: 'Prime Gaming', value: 'Prime Gaming' },
+            { label: 'Battle.net', value: 'Battle.net' },
+            { label: 'Origin', value: 'Origin' },
+            { label: 'Itch.io', value: 'Itch.io' },
+            { label: 'Indiegala', value: 'Indiegala' },
+            { label: 'PlayStation', value: 'PS' },
+            { label: 'Xbox', value: 'Xbox' },
+            { label: 'Switch', value: 'Switch' },
+            { label: 'Android', value: 'Android' },
+            { label: 'iOS', value: 'iOS' },
+            { label: 'VR', value: 'VR' },
+            { label: 'PC (Outros)', value: 'PC' },
           ].map((option) => (
             <button
               key={option.value}
               onClick={() => setFilter(option.value)}
-              className={`px-4 py-2 rounded-full text-sm font-bold transition-all duration-200 border flex items-center gap-2 ${
+              className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 border flex items-center gap-1.5 ${
                 filter === option.value
-                  ? 'bg-green-500 text-slate-900 border-green-500 shadow-[0_0_15px_rgba(34,197,94,0.4)]'
+                  ? 'bg-green-500 text-slate-900 border-green-500 shadow-[0_0_15px_rgba(34,197,94,0.4)] transform scale-105'
                   : 'bg-slate-800 text-slate-300 border-slate-700 hover:border-slate-500 hover:bg-slate-750'
               }`}
             >
-              {option.label === 'PlayStation' && <Gamepad2 className="w-4 h-4 text-blue-400" />}
-              {option.label === 'Xbox' && <Gamepad2 className="w-4 h-4 text-green-400" />}
+              {option.label === 'PlayStation' && <Gamepad2 className="w-3.5 h-3.5 text-blue-400" />}
+              {option.label === 'Xbox' && <Gamepad2 className="w-3.5 h-3.5 text-green-400" />}
+              {option.label === 'Switch' && <Gamepad2 className="w-3.5 h-3.5 text-red-500" />}
+              {(option.label === 'Android' || option.label === 'iOS') && <Smartphone className="w-3.5 h-3.5 text-purple-400" />}
+              {option.label === 'VR' && <Glasses className="w-3.5 h-3.5 text-pink-400" />}
               {option.label}
             </button>
           ))}
@@ -155,7 +175,7 @@ export default function GameHunter() {
           <div className="text-center py-20 text-slate-500">
             <Gamepad2 className="w-16 h-16 mx-auto mb-4 opacity-20" />
             <p className="text-lg">Nenhum jogo encontrado para este filtro no momento.</p>
-            <p className="text-sm mt-2 opacity-60">As ofertas para consolas são mais raras que para PC.</p>
+            <p className="text-sm mt-2 opacity-60">Dica: Tente selecionar "Todos" para ver todas as ofertas disponíveis.</p>
             <button onClick={() => setFilter('All')} className="mt-4 text-green-400 hover:underline">
               Ver todos os jogos
             </button>
@@ -232,7 +252,7 @@ export default function GameHunter() {
       </main>
       
       <footer className="border-t border-slate-800 bg-slate-900 py-8 mt-12 text-center text-slate-500 text-sm">
-        <p>Dados fornecidos pela API GamerPower. Monitorizamos PC, Xbox, PlayStation e mais.</p>
+        <p>Dados fornecidos pela API GamerPower. Monitorizamos PC, Xbox, PlayStation, Switch e Mobile.</p>
         <p className="mt-2">GameHunter &copy; 2024</p>
       </footer>
     </div>
