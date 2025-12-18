@@ -65,6 +65,9 @@ export default function GameHunter() {
           <div className="flex items-center gap-2">
             {/* Logo atualizada */}
             <img src={logo} alt="GameHunter Logo" className="h-10 w-auto object-contain" />
+            <h1 className="text-xl font-bold tracking-tight">
+              Game<span className="text-green-400">Hunter</span>
+            </h1>
           </div>
           <button 
             onClick={fetchGames}
