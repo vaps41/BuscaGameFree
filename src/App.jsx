@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ExternalLink, Monitor, Tag, RefreshCw, AlertCircle, Gamepad2, Smartphone, Glasses } from 'lucide-react';
+import { ExternalLink, Monitor, Tag, RefreshCw, AlertCircle, Gamepad2, Smartphone, Glasses, Github, Linkedin } from 'lucide-react';
 import logo from '../logo_GameHunter.png'; // Importando a nova logo
 
 export default function GameHunter() {
@@ -79,7 +79,7 @@ export default function GameHunter() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 font-sans selection:bg-green-500 selection:text-slate-900">
+    <div className="min-h-screen bg-slate-900 text-slate-100 font-sans selection:bg-green-500 selection:text-slate-900 flex flex-col">
       <header className="bg-slate-800 border-b border-slate-700 sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -100,7 +100,7 @@ export default function GameHunter() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow">
         <div className="mb-8 text-center sm:text-left">
           <h2 className="text-3xl font-bold mb-2">Jogos Gratuitos Disponíveis</h2>
           <p className="text-slate-400 max-w-2xl">
@@ -251,9 +251,49 @@ export default function GameHunter() {
         )}
       </main>
       
-      <footer className="border-t border-slate-800 bg-slate-900 py-8 mt-12 text-center text-slate-500 text-sm">
-        <p>Dados fornecidos pela API GamerPower. Monitorizamos PC, Xbox, PlayStation, Switch e Mobile.</p>
-        <p className="mt-2">GameHunter &copy; 2024</p>
+      {/* Rodapé com Assinatura VAPS integrado */}
+      <footer className="w-full border-t border-slate-800 bg-slate-900 py-6 mt-12">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          
+          {/* Créditos da API */}
+          <p className="text-slate-500 text-xs mb-4">
+            Dados fornecidos pela API GamerPower. Monitorizamos PC, Xbox, PlayStation, Switch e Mobile.
+          </p>
+
+          {/* Assinatura Personalizada VAPS */}
+          <div className="text-slate-400 text-sm flex flex-col items-center gap-2">
+            <p>
+              &copy; <span id="hoje">{new Date().getFullYear()}</span> <span className="font-bold text-slate-200">VAPS</span> – Todos os direitos reservados.
+            </p>
+            
+            <div className="flex items-center justify-center gap-3 mt-1 text-slate-500">
+               <span className="hidden sm:inline">|</span>
+               
+               <a 
+                 href="https://github.com/vaps41" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 className="flex items-center gap-1 hover:text-white transition-colors duration-300"
+               >
+                 <Github className="w-4 h-4" /> GitHub
+               </a>
+
+               <span>|</span>
+
+               <a 
+                 href="https://www.linkedin.com/in/victorandrade41" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 className="flex items-center gap-1 hover:text-white transition-colors duration-300"
+               >
+                 <Linkedin className="w-4 h-4" /> LinkedIn
+               </a>
+
+               <span className="hidden sm:inline">|</span>
+            </div>
+          </div>
+
+        </div>
       </footer>
     </div>
   );
