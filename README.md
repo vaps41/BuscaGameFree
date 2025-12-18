@@ -11,7 +11,7 @@ Encontre jogos 100% gratuitos para PC, Consolas e Mobile em lojas oficiais.
 </p>
 </div>
 
-<b>📋 Sobre o Projeto<b/>
+<b>📋 Sobre o Projeto</b>
 
 GameHunter é uma aplicação web moderna que monitoriza e agrega ofertas de jogos gratuitos de lojas licenciadas. O nosso objetivo é ajudar jogadores a encontrar jogos legítimos sem custos, evitando a pirataria e centralizando ofertas de múltiplas plataformas num único lugar.
 
