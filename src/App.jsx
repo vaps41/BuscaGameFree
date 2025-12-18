@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ExternalLink, Monitor, Tag, RefreshCw, AlertCircle } from 'lucide-react';
+import { ExternalLink, Monitor, Tag, RefreshCw, AlertCircle, Gamepad2 } from 'lucide-react';
 import logo from '../logo_GameHunter.png'; // Importando a nova logo
 
 export default function GameHunter() {
@@ -47,16 +47,30 @@ export default function GameHunter() {
 
   const filteredGames = games.filter(game => {
     if (filter === 'All') return true;
+    // Verifica se a plataforma ou instruções contêm o filtro (ex: "PS" encontra "PS4" e "PS5")
     return game.platforms.includes(filter) || game.instructions.includes(filter);
   });
 
   const getStoreBadgeColor = (store) => {
+    // Cores personalizadas por plataforma
     if (store.includes('Steam')) return 'bg-blue-600 text-white';
     if (store.includes('Epic')) return 'bg-gray-800 text-white border border-gray-600';
     if (store.includes('GOG')) return 'bg-purple-600 text-white';
     if (store.includes('Ubisoft')) return 'bg-blue-500 text-white';
-    return 'bg-green-600 text-white';
+    if (store.includes('PS') || store.includes('Sony')) return 'bg-blue-800 text-white border border-blue-500'; // PlayStation Blue
+    if (store.includes('Xbox') || store.includes('Microsoft')) return 'bg-green-700 text-white border border-green-500'; // Xbox Green
+    if (store.includes('Nintendo') || store.includes('Switch')) return 'bg-red-600 text-white'; // Nintendo Red
+    if (store.includes('Android') || store.includes('iOS')) return 'bg-green-500 text-slate-900'; // Mobile
+    
+    return 'bg-green-600 text-white'; // Padrão
   };
+
+  // Ícone helper para o botão de filtro
+  const getFilterIcon = (label) => {
+      if(label === 'PlayStation') return 'text-blue-400';
+      if(label === 'Xbox') return 'text-green-400';
+      return '';
+  }
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 font-sans selection:bg-green-500 selection:text-slate-900">
@@ -65,16 +79,17 @@ export default function GameHunter() {
           <div className="flex items-center gap-2">
             {/* Logo atualizada */}
             <img src={logo} alt="GameHunter Logo" className="h-10 w-auto object-contain" />
-            <h1 className="text-xl font-bold tracking-tight">
+            <h1 className="text-xl font-bold tracking-tight hidden sm:block">
               Game<span className="text-green-400">Hunter</span>
             </h1>
           </div>
           <button 
             onClick={fetchGames}
-            className="p-2 hover:bg-slate-700 rounded-full transition-colors"
+            className="p-2 hover:bg-slate-700 rounded-full transition-colors flex items-center gap-2 text-sm font-medium text-slate-400 hover:text-white"
             title="Atualizar Lista"
           >
-            <RefreshCw className={`w-5 h-5 text-slate-400 ${loading ? 'animate-spin' : ''}`} />
+            <span className="hidden sm:inline">Atualizar</span>
+            <RefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
           </button>
         </div>
       </header>
@@ -82,28 +97,32 @@ export default function GameHunter() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8 text-center sm:text-left">
           <h2 className="text-3xl font-bold mb-2">Jogos Gratuitos Disponíveis</h2>
-          <p className="text-slate-400">
-            Monitorizamos as principais lojas (Steam, Epic, GOG) para encontrar jogos oficiais que estão 100% grátis agora.
+          <p className="text-slate-400 max-w-2xl">
+            Monitorizamos as principais lojas para encontrar jogos oficiais que estão 100% grátis agora para PC, Consolas e Mobile.
           </p>
         </div>
 
+        {/* Filtros Atualizados */}
         <div className="flex flex-wrap gap-2 mb-8 justify-center sm:justify-start">
           {[
             { label: 'Todos', value: 'All' },
-            { label: 'Steam', value: 'Steam' },
+            { label: 'PC / Steam', value: 'PC' },
+            { label: 'PlayStation', value: 'PS' }, // "PS" pega PS4 e PS5
+            { label: 'Xbox', value: 'Xbox' },      // "Xbox" pega One e Series X
             { label: 'Epic Games', value: 'Epic Games Store' },
             { label: 'GOG', value: 'GOG' },
-            { label: 'PC', value: 'PC' }
           ].map((option) => (
             <button
               key={option.value}
               onClick={() => setFilter(option.value)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border ${
+              className={`px-4 py-2 rounded-full text-sm font-bold transition-all duration-200 border flex items-center gap-2 ${
                 filter === option.value
                   ? 'bg-green-500 text-slate-900 border-green-500 shadow-[0_0_15px_rgba(34,197,94,0.4)]'
                   : 'bg-slate-800 text-slate-300 border-slate-700 hover:border-slate-500 hover:bg-slate-750'
               }`}
             >
+              {option.label === 'PlayStation' && <Gamepad2 className="w-4 h-4 text-blue-400" />}
+              {option.label === 'Xbox' && <Gamepad2 className="w-4 h-4 text-green-400" />}
               {option.label}
             </button>
           ))}
@@ -134,8 +153,9 @@ export default function GameHunter() {
 
         {!loading && !error && filteredGames.length === 0 && (
           <div className="text-center py-20 text-slate-500">
-            <Monitor className="w-16 h-16 mx-auto mb-4 opacity-20" />
-            <p className="text-lg">Nenhum jogo encontrado para este filtro.</p>
+            <Gamepad2 className="w-16 h-16 mx-auto mb-4 opacity-20" />
+            <p className="text-lg">Nenhum jogo encontrado para este filtro no momento.</p>
+            <p className="text-sm mt-2 opacity-60">As ofertas para consolas são mais raras que para PC.</p>
             <button onClick={() => setFilter('All')} className="mt-4 text-green-400 hover:underline">
               Ver todos os jogos
             </button>
@@ -158,6 +178,7 @@ export default function GameHunter() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80"></div>
                   
+                  {/* Badge de Plataforma */}
                   <div className="absolute top-3 right-3 flex gap-2">
                     <span className={`text-xs font-bold px-2 py-1 rounded shadow-lg backdrop-blur-md ${getStoreBadgeColor(game.platforms)}`}>
                       {game.platforms.split(',')[0]}
@@ -211,8 +232,8 @@ export default function GameHunter() {
       </main>
       
       <footer className="border-t border-slate-800 bg-slate-900 py-8 mt-12 text-center text-slate-500 text-sm">
-        <p>Dados fornecidos pela API GamerPower. Este sistema verifica apenas lojas licenciadas.</p>
-        <p className="mt-2">Sistema desenvolvido para monitorização segura de jogos.</p>
+        <p>Dados fornecidos pela API GamerPower. Monitorizamos PC, Xbox, PlayStation e mais.</p>
+        <p className="mt-2">GameHunter &copy; 2024</p>
       </footer>
     </div>
   );
