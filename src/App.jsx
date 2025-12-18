@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Gift, ExternalLink, Monitor, Tag, RefreshCw, AlertCircle } from 'lucide-react';
+import { ExternalLink, Monitor, Tag, RefreshCw, AlertCircle } from 'lucide-react';
+import logo from '../logo_GameHunter.png'; // Importando a nova logo
 
 export default function GameHunter() {
   const [games, setGames] = useState([]);
@@ -62,10 +63,8 @@ export default function GameHunter() {
       <header className="bg-slate-800 border-b border-slate-700 sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Gift className="w-8 h-8 text-green-400" />
-            <h1 className="text-xl font-bold tracking-tight">
-              Game<span className="text-green-400">Hunter</span>
-            </h1>
+            {/* Logo atualizada */}
+            <img src={logo} alt="GameHunter Logo" className="h-10 w-auto object-contain" />
           </div>
           <button 
             onClick={fetchGames}
