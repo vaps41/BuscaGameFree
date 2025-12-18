@@ -7,21 +7,34 @@ export default function GameHunter() {
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState('All'); 
 
-  const API_URL = "https://www.gamerpower.com/api/giveaways";
+  // IMPORTANTE: Agora usamos o caminho relativo que o vercel.json vai traduzir
+  const API_URL = "/api/games";
 
   const fetchGames = async () => {
     setLoading(true);
     setError(null);
     try {
+      console.log("Iniciando busca em:", API_URL);
       const response = await fetch(API_URL);
+      
       if (!response.ok) {
-        throw new Error('Falha na conexão com o servidor de jogos.');
+        throw new Error(`Erro ${response.status}: Falha ao conectar com o servidor.`);
       }
+      
       const data = await response.json();
+      console.log("Jogos recebidos:", data.length);
+      
+      // Filtrar apenas ofertas ativas
       const activeGames = data.filter(game => game.status === 'Active');
       setGames(activeGames);
     } catch (err) {
-      setError('Não foi possível carregar os jogos. Tente novamente mais tarde.');
+      console.error("Erro detalhado:", err);
+      // Mensagem amigável se for erro de CORS ou 404
+      if (err.message.includes("Failed to fetch")) {
+         setError('Erro de conexão. Verifique se o proxy (vercel.json) está configurado corretamente.');
+      } else {
+         setError(err.message || 'Não foi possível carregar os jogos.');
+      }
     } finally {
       setLoading(false);
     }
