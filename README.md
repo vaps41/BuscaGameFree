@@ -17,7 +17,7 @@ GameHunter é uma aplicação web moderna que monitoriza e agrega ofertas de jog
 
 Ao contrário de sites de pirataria, o GameHunter lista apenas promoções oficiais (como os jogos semanais da Epic Games, ofertas de tempo limitado na Steam, ou jogos gratuitos com Prime Gaming).
 
-✨ Funcionalidades Principais
+<b>✨ Funcionalidades Principais</b>
 
 Feed em Tempo Real: Conexão direta com a API GamerPower para listar ofertas ativas no momento.
 
@@ -31,7 +31,7 @@ Interface Gamer: Design responsivo, moderno e com modo escuro, otimizado para qu
 
 Proxy Integrado: Configuração pronta para evitar bloqueios de CORS em ambientes de produção (como Vercel).
 
-🛠️ Tecnologias Utilizadas
+<b>🛠️ Tecnologias Utilizadas</b>
 
 Este projeto foi construído com as melhores ferramentas do ecossistema React:
 
@@ -45,7 +45,7 @@ Lucide React: Biblioteca de ícones leve e consistente.
 
 Vercel: Plataforma de hospedagem e deploy contínuo.
 
-🚀 Como Executar Localmente
+<b>🚀 Como Executar Localmente</b>
 
 Siga estes passos para rodar o GameHunter no seu computador:
 
@@ -78,7 +78,7 @@ O projeto estará rodando em http://localhost:5173.
 
 Nota: O projeto já inclui um proxy configurado no vite.config.js para evitar erros de CORS ao consumir a API localmente.
 
-🌐 Deploy (Vercel)
+<b>🌐 Deploy (Vercel)</b>
 
 Este projeto está configurado para deploy imediato na Vercel.
 
@@ -88,7 +88,7 @@ Importe o projeto na Vercel.
 
 O arquivo vercel.json na raiz garantirá que as rotas da API funcionem corretamente através de rewrites.
 
-🤝 Contribuição
+<b>🤝 Contribuição</b>
 
 Contribuições são sempre bem-vindas! Se você tem uma ideia para melhorar o GameHunter:
 
@@ -102,7 +102,7 @@ Faça o Push para a Branch (git push origin feature/MinhaFeature).
 
 Abra um Pull Request.
 
-📝 Licença
+<b>📝 Licença</b>
 
 Este projeto é desenvolvido para fins educacionais e comunitários.
 Dados fornecidos pela API pública do GamerPower.
